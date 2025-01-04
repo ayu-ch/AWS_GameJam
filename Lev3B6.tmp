@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://b1l1d0w5hvlrr"]
+
+[ext_resource type="PackedScene" uid="uid://bfqmc3wvclid3" path="res://Player.tscn" id="1_jsb6v"]
+[ext_resource type="Script" path="res://Level.gd" id="1_qy5r3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_q6fdh"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_yo415"]
+sky_material = SubResource("ProceduralSkyMaterial_q6fdh")
+
+[sub_resource type="Environment" id="Environment_p4l40"]
+background_mode = 2
+sky = SubResource("Sky_yo415")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dcedt"]
+size = Vector2(10, 10)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_tuxqa"]
+data = PackedVector3Array(5, 0, 5, -5, 0, 5, 5, 0, -5, -5, 0, 5, -5, 0, -5, 5, 0, -5)
+
+[node name="Level" type="Node3D"]
+script = ExtResource("1_qy5r3")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_p4l40")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.871214, -0.0734075, 0.485384, 0, 0.988756, 0.149535, -0.490904, 0.130277, -0.861418, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 7.28385, 0)
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_dcedt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_tuxqa")
+
+[node name="Player" parent="." instance=ExtResource("1_jsb6v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+
+[node name="Red" type="Button" parent="."]
+anchors_preset = -1
+anchor_right = 0.209
+anchor_bottom = 0.123
+offset_right = 0.231995
+offset_bottom = 0.295998
+text = "Red"
+
+[node name="Blue" type="Button" parent="."]
+anchors_preset = -1
+anchor_right = 0.209
+anchor_bottom = 0.123
+offset_left = 267.0
+offset_top = 2.0
+offset_right = 267.232
+offset_bottom = 2.296
+text = "Blue
+"
+
+[node name="Green" type="Button" parent="."]
+anchors_preset = -1
+anchor_right = 0.209
+anchor_bottom = 0.123
+offset_left = 545.0
+offset_top = 2.0
+offset_right = 545.232
+offset_bottom = 2.296
+text = "Green"
+
+[node name="Preview" type="Button" parent="."]
+anchors_preset = -1
+anchor_right = 0.209
+anchor_bottom = 0.123
+offset_top = 102.0
+offset_right = 0.231995
+offset_bottom = 102.296
+text = "Preview"
